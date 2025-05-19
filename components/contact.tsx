@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
+import emailjs from "emailjs-com";
 
 export default function Contact() {
   const sectionRef = useRef(null);
@@ -24,22 +25,34 @@ export default function Contact() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic would go here
-    console.log(formState);
-
-    // Animation for successful submission
-    gsap.to(formRef.current, {
-      y: 10,
-      duration: 0.2,
-      ease: "power1.inOut",
-      yoyo: true,
-      repeat: 1,
-      onComplete: () => {
-        setFormState({ name: "", email: "", message: "" });
-      },
-    });
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!, // Service ID
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, // Template ID
+        {
+          name: formState.name,
+          message: formState.message,
+          title: "Contato via Portfólio",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! // Public Key
+      );
+      // Animação de sucesso
+      gsap.to(formRef.current, {
+        y: 10,
+        duration: 0.2,
+        ease: "power1.inOut",
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+          setFormState({ name: "", email: "", message: "" });
+          alert("Mensagem enviada com sucesso!");
+        },
+      });
+    } catch (error) {
+      alert("Erro ao enviar mensagem. Tente novamente.");
+    }
   };
 
   useEffect(() => {

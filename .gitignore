@@ -25,3 +25,33 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+
+# Misc
+*.local
+*.swp
+*.swo
+
+# Private files
+private/
+secrets/
+
+# Backup files
+*.bak
+*.tmp
