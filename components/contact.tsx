@@ -28,6 +28,9 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("SERVICE_ID:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
+      console.log("TEMPLATE_ID:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
+      console.log("PUBLIC_KEY:", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!, // Service ID
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, // Template ID
@@ -51,6 +54,7 @@ export default function Contact() {
         },
       });
     } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
       alert("Erro ao enviar mensagem. Tente novamente.");
     }
   };
